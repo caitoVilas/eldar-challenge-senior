@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>email verification</title>
+</head>
+<body>
+  <p>Hola ${name},</p>
+  <p>Thank you for registering. Please click the link below to verify your email address:</p>
+   <p><a href="http://localhost:9000/api/v1/eldar/users/confirm-registration?token=${token}">
+       Verify your email</a></p>
+   <p>Thank you,<br/>The Business Team</p>
+</body>
+</html>
