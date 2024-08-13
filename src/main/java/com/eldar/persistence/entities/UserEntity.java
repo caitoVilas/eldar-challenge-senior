@@ -1,5 +1,6 @@
 package com.eldar.persistence.entities;
 
+import com.eldar.services.listeners.AuditUserListener;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +20,7 @@ import java.util.Set;
 @NoArgsConstructor@AllArgsConstructor
 @Getter@Setter
 @Builder
+@EntityListeners(AuditUserListener.class)
 public class UserEntity implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

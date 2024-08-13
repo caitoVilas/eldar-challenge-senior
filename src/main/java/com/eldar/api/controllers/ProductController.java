@@ -7,6 +7,7 @@ import com.eldar.api.models.responses.ProductResponse;
 import com.eldar.services.contracts.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -131,5 +132,35 @@ public class ProductController {
         log.info("--> DELETE endpoint Deleting product controller");
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    @SecurityRequirement(name = "security token")
+    @Operation(summary = "Update a product")
+    @Parameters({
+            @Parameter(name = "id", description = "Product id"),
+            @Parameter(name = "request", description = "Product request")
+    })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Product updated"),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ExceptionResponses.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ExceptionResponse.class)))
+    })
+    public ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody ProductRequest request) {
+        log.info("--> PUT endpoint Updating product controller");
+        return ResponseEntity.ok(productService.updateProduct(id, request));
     }
 }

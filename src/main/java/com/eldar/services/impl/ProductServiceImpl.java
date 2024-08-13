@@ -73,6 +73,26 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
+    @Override
+    public ProductResponse updateProduct(Long id, ProductRequest request) {
+        log.info("--> Updating product service");
+        Product product = this.getById(id);
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            product.setName(request.getName());
+        }
+        if (request.getDescription() != null && !request.getDescription().isEmpty()) {
+            product.setDescription(request.getDescription());
+        }
+        if (request.getStock() != null && request.getStock() > 0) {
+            product.setStock(request.getStock());
+        }
+        if (request.getPrice() != null && request.getPrice().compareTo(BigDecimal.ZERO) > 0) {
+            product.setPrice(request.getPrice());
+        }
+        var productUpdated = productRepository.save(product);
+        return ProductMapper.mapToDto(productUpdated);
+    }
+
     /**
      * Validate product request
      *

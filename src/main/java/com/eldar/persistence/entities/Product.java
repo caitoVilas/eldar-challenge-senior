@@ -1,5 +1,6 @@
 package com.eldar.persistence.entities;
 
+import com.eldar.services.listeners.AuditProductListener;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor@AllArgsConstructor
 @Getter@Setter
 @Builder
+@EntityListeners(AuditProductListener.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
